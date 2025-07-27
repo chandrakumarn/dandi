@@ -26,7 +26,7 @@ export default function Sidebar({ open, onClose }) {
           <a className="flex items-center gap-3 font-semibold bg-zinc-100 dark:bg-zinc-800 rounded px-3 py-2" href="#"> <span>🏠</span> Overview</a>
           <a className="flex items-center gap-3 px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded" href="#"> <span>✨</span> Research Assistant</a>
           <a className="flex items-center gap-3 px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded" href="#"> <span>📄</span> Research Reports</a>
-          <a className="flex items-center gap-3 px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded" href="#"> <span>&lt;/&gt;</span> API Playground</a>
+          <a className="flex items-center gap-3 px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded" href="/api-playground"> <span>&lt;/&gt;</span> API Playground</a>
           <a className="flex items-center gap-3 px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded" href="#"> <span>🧾</span> Invoices</a>
           <a className="flex items-center gap-3 px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded" href="#"> <span>📚</span> Documentation</a>
         </nav>

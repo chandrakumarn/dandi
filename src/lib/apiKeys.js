@@ -51,3 +51,14 @@ export async function deleteApiKey(id) {
   if (error) throw error;
   return true;
 } 
+
+// Verify an API key
+export async function verifyApiKey(key) {
+  const { data, error } = await supabase
+    .from("api_keys")
+    .select("id")
+    .eq("key", key)
+    .single();
+  if (error || !data) return false;
+  return true;
+} 
