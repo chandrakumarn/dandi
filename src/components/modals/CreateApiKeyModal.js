@@ -52,7 +52,7 @@ export default function CreateApiKeyModal({ onCreate, onCancel, loading }) {
                 disabled={!limitEnabled}
               />
               <div className="text-xs text-zinc-400 mt-1">
-                * If the combined usage of all your keys exceeds your plan's limit, all requests will be rejected.
+                * If the combined usage of all your keys exceeds your plans limit, all requests will be rejected.
               </div>
             </div>
             <div className="flex gap-2 justify-center mt-4">

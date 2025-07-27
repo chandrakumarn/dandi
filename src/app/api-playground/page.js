@@ -35,6 +35,24 @@ export default function ApiPlaygroundPage() {
         {error && <div className="text-red-600 font-medium">{error}</div>}
         <button type="submit" className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">Submit</button>
       </form>
+      <div style={{ position: 'fixed', bottom: 24, left: 0, width: '100%', display: 'flex', justifyContent: 'center', pointerEvents: 'none', zIndex: 50 }}>
+        <a
+          href="/dashboards"
+          style={{
+            pointerEvents: 'auto',
+            background: '#22c55e',
+            color: 'white',
+            padding: '0.75rem 1.5rem',
+            borderRadius: '9999px',
+            fontWeight: 600,
+            boxShadow: '0 2px 8px rgba(34,197,94,0.15)',
+            textDecoration: 'none',
+            transition: 'background 0.2s',
+          }}
+        >
+          ← Back to API Tables
+        </a>
+      </div>
     </div>
   );
 } 
