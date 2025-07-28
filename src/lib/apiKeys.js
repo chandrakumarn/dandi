@@ -52,13 +52,21 @@ export async function deleteApiKey(id) {
   return true;
 } 
 
-// Verify an API key
+// Verify an API key using local endpoint
 export async function verifyApiKey(key) {
-  const { data, error } = await supabase
-    .from("api_keys")
-    .select("id")
-    .eq("key", key)
-    .single();
-  if (error || !data) return false;
-  return true;
+  try {
+    const response = await fetch('/api/api-playground', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ apiKey: key }),
+    });
+    
+    const data = await response.json();
+    return data.valid || false;
+  } catch (error) {
+    console.error('API key verification error:', error);
+    return false;
+  }
 } 
