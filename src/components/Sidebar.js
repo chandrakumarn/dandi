@@ -4,12 +4,14 @@ import Image from 'next/image';
 export default function Sidebar({ open, onClose }) {
   return (
     <>
-      {/* Overlay for all screens when sidebar is open */}
-      <div
-        className={`fixed inset-0 z-40 bg-black/30 transition-opacity ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-        onClick={onClose}
-        aria-hidden={!open}
-      />
+      {/* Overlay only shows on mobile or when sidebar is toggled */}
+      {open && (
+        <div
+          className="fixed inset-0 z-40 bg-black/30 transition-opacity md:hidden"
+          onClick={onClose}
+          aria-hidden={false}
+        />
+      )}
       <aside
         className={`fixed z-50 top-0 left-0 h-full w-64 min-h-screen bg-white/80 dark:bg-zinc-900/80 border-r border-zinc-200 dark:border-zinc-800 shadow-sm px-6 py-8 flex-col transition-transform duration-300 ${open ? 'translate-x-0' : '-translate-x-full'}`}
         style={{ display: open ? 'flex' : '', position: open ? 'fixed' : '' }}
@@ -22,6 +24,22 @@ export default function Sidebar({ open, onClose }) {
         >
           <CloseIcon />
         </button>
+        
+        {/* User Profile Section - Now at the top */}
+        <div className="flex items-center gap-3 mb-8 pb-6 border-b border-zinc-200 dark:border-zinc-700">
+          <Image
+            src="/chandrakumar-profile-resized.jpg"
+            alt="Chandrakumar N"
+            width={40}
+            height={40}
+            className="w-10 h-10 rounded-full"
+          />
+          <div className="flex flex-col">
+            <span className="font-semibold text-zinc-900 dark:text-zinc-100">Chandrakumar N</span>
+            <span className="text-sm text-zinc-500 dark:text-zinc-400">Data Scientist</span>
+          </div>
+        </div>
+        
         <div className="text-2xl font-bold mb-10 tracking-tight">Dandi AI</div>
         <nav className="flex-1 flex flex-col gap-2 text-zinc-700 dark:text-zinc-300">
           <a className="flex items-center gap-3 font-semibold bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 rounded px-3 py-2 border border-green-300 dark:border-green-700" href="/api-playground">
@@ -50,16 +68,6 @@ export default function Sidebar({ open, onClose }) {
           <a className="flex items-center gap-3 px-3 py-2 rounded opacity-50 cursor-not-allowed bg-zinc-100 dark:bg-zinc-800" href="#" tabIndex="-1" aria-disabled="true" title="Coming soon!"> <span>🧾</span> Invoices</a>
           <a className="flex items-center gap-3 px-3 py-2 rounded opacity-50 cursor-not-allowed bg-zinc-100 dark:bg-zinc-800" href="#" tabIndex="-1" aria-disabled="true" title="Coming soon!"> <span>📚</span> Documentation</a>
         </nav>
-        <div className="mt-auto flex items-center gap-3 pt-8">
-          <Image
-            src="https://randomuser.me/api/portraits/men/32.jpg"
-            alt="avatar"
-            width={32}
-            height={32}
-            className="w-8 h-8 rounded-full"
-          />
-          <span className="font-medium">Eden Marco</span>
-        </div>
       </aside>
     </>
   );

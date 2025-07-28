@@ -3,6 +3,6 @@ const nextConfig = {};
 
 export default {
   images: {
-    domains: ['randomuser.me'],
+    domains: [],
   },
 };

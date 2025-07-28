@@ -111,7 +111,7 @@ export default function DashboardsPage() {
   const [error, setError] = useState("");
   const [toast, setToast] = useState("");
   const [toastColor, setToastColor] = useState("bg-green-600");
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   // Fetch API keys from Supabase on mount
   useEffect(() => {
@@ -195,7 +195,7 @@ export default function DashboardsPage() {
   return (
     <div className="flex min-h-screen bg-zinc-50 dark:bg-zinc-950">
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <div className="flex-1 flex flex-col min-h-screen">
+      <div className="flex-1 flex flex-col min-h-screen md:ml-64">
         <TopBar onMenuClick={() => setSidebarOpen(true)} sidebarOpen={sidebarOpen} />
         <main className="flex-1 px-4 md:px-12 py-8 max-w-5xl mx-auto">
           <div className="mb-4 text-zinc-400 text-sm font-medium">Pages / Overview</div>
