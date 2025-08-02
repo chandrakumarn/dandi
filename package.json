@@ -9,11 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@langchain/core": "^0.3.0",
+    "@langchain/openai": "^0.1.0",
     "@supabase/supabase-js": "^2.52.1",
     "next": "15.4.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "sharp": "^0.33.0"
+    "sharp": "^0.33.0",
+    "zod": "^3.22.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
