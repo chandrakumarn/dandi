@@ -1,8 +1,6 @@
 import { ChatOpenAI } from "@langchain/openai";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { z } from "zod";
-import { StructuredOutputParser } from "@langchain/core/output_parsers";
-import { RunnableSequence } from "@langchain/core/runnables";
 
 /**
  * Summarizes a GitHub repository using its README content.
@@ -17,6 +15,7 @@ export async function summarizeGithubReadme(readmeContent) {
   console.log('OpenAI API Key Prefix:', process.env.OPENAI_API_KEY ? process.env.OPENAI_API_KEY.substring(0, 7) : 'N/A');
   console.log('All Environment Variables:', Object.keys(process.env).filter(key => key.includes('OPENAI')));
   console.log('==========================');
+
   // Define the strict schema for the output
   const summarySchema = z.object({
     summary: z.string().describe("A concise summary of the repository based on the README"),
@@ -25,20 +24,18 @@ export async function summarizeGithubReadme(readmeContent) {
       .describe("A list of 3-5 interesting facts or features about the repository"),
   });
 
-  // Set up the output parser
-  const parser = StructuredOutputParser.fromZodSchema(summarySchema);
-
-  // Get format instructions for the model
-  const formatInstructions = parser.getFormatInstructions();
+  // Initialize the LLM with structured output
+  const llm = new ChatOpenAI({
+    model: "gpt-3.5-turbo-0125", // Cheaper model
+    temperature: 0.3,
+  }).withStructuredOutput(summarySchema);
 
   // Compose the prompt
   const prompt = ChatPromptTemplate.fromMessages([
     [
       "system",
       "You are an expert open source analyst. Summarize this GitHub repository from this README file content. " +
-        "Return your answer as a JSON object that strictly matches the provided schema. " +
-        "If the README is empty or not informative, say so in the summary and leave 'cool_facts' as an empty array.\n" +
-        "{format_instructions}",
+        "If the README is empty or not informative, say so in the summary and leave 'cool_facts' as an empty array.",
     ],
     [
       "human",
@@ -46,24 +43,13 @@ export async function summarizeGithubReadme(readmeContent) {
     ],
   ]);
 
-  // Initialize the LLM
-  const llm = new ChatOpenAI({
-    model: "gpt-3.5-turbo-0125", // Cheaper model
-    temperature: 0.3,
-  });
-
-  // Build the chain: prompt -> llm -> parser
-  const chain = RunnableSequence.from([
-    prompt,
-    llm,
-    parser,
-  ]);
+  // Build the chain: prompt -> llm
+  const chain = prompt.pipe(llm);
 
   try {
     // Invoke the chain
     return await chain.invoke({
       readme: readmeContent,
-      format_instructions: formatInstructions,
     });
   } catch (error) {
     console.error('OpenAI API Error:', error.message);
