@@ -1,8 +1,11 @@
-export default function Toast({ message, color = "bg-green-600", visible }) {
+export default function Toast({ message, color, visible }) {
   if (!visible) return null;
 
+  const baseClasses = "fixed bottom-4 right-4 px-6 py-4 rounded-xl text-white font-medium shadow-lg transform transition-all duration-300 z-50";
+  const colorClasses = color || "bg-blue-600";
+
   return (
-    <div className={`fixed left-1/2 top-8 z-50 -translate-x-1/2 ${color} text-white px-6 py-3 rounded-xl shadow-lg text-base font-medium animate-fade-in-out`}>
+    <div className={`${baseClasses} ${colorClasses}`}>
       {message}
     </div>
   );

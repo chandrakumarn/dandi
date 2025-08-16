@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn, getSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useState } from "react";
 
 export default function GoogleSignIn() {
@@ -34,10 +34,10 @@ export default function GoogleSignIn() {
       <button
         onClick={handleGoogleSignIn}
         disabled={isLoading}
-        className="flex items-center gap-3 px-6 py-3 bg-white text-gray-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 border border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="flex items-center gap-3 px-6 py-3 bg-white text-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transform hover:-translate-y-0.5"
       >
         {isLoading ? (
-          <div className="w-5 h-5 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin"></div>
+          <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
         ) : (
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path
@@ -62,7 +62,9 @@ export default function GoogleSignIn() {
       </button>
       
       {error && (
-        <p className="text-red-500 text-sm text-center max-w-xs">{error}</p>
+        <p className="text-red-500 text-sm text-center max-w-xs bg-red-50 px-3 py-2 rounded-lg border border-red-200">
+          {error}
+        </p>
       )}
     </div>
   );

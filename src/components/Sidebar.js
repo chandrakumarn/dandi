@@ -13,12 +13,12 @@ export default function Sidebar({ open, onClose }) {
         />
       )}
       <aside
-        className={`fixed z-50 top-0 left-0 h-full w-64 min-h-screen bg-white/80 dark:bg-zinc-900/80 border-r border-zinc-200 dark:border-zinc-800 shadow-sm px-6 py-8 flex-col transition-transform duration-300 ${open ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`fixed z-50 top-0 left-0 h-full w-64 min-h-screen bg-white border-r border-gray-200 shadow-lg px-6 py-8 flex-col transition-transform duration-300 ${open ? 'translate-x-0' : '-translate-x-full'}`}
         style={{ display: open ? 'flex' : '', position: open ? 'fixed' : '' }}
       >
         {/* X button for all screens */}
         <button
-          className="absolute top-4 right-4 p-2 rounded hover:bg-zinc-200 dark:hover:bg-zinc-800"
+          className="absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100 transition-colors"
           onClick={onClose}
           aria-label="Close sidebar"
         >
@@ -26,23 +26,23 @@ export default function Sidebar({ open, onClose }) {
         </button>
         
         {/* User Profile Section - Now at the top */}
-        <div className="flex items-center gap-3 mb-8 pb-6 border-b border-zinc-200 dark:border-zinc-700">
+        <div className="flex items-center gap-3 mb-8 pb-6 border-b border-gray-200">
           <Image
             src="/chandrakumar-profile-resized.jpg"
             alt="Chandrakumar N"
             width={40}
             height={40}
-            className="w-10 h-10 rounded-full"
+            className="w-10 h-10 rounded-full border-2 border-blue-200"
           />
           <div className="flex flex-col">
-            <span className="font-semibold text-zinc-900 dark:text-zinc-100">Chandrakumar N</span>
-            <span className="text-sm text-zinc-500 dark:text-zinc-400">Data Scientist</span>
+            <span className="font-semibold text-gray-900">Chandrakumar N</span>
+            <span className="text-sm text-gray-600">Data Scientist</span>
           </div>
         </div>
         
-        <div className="text-2xl font-bold mb-10 tracking-tight">Dandi AI</div>
-        <nav className="flex-1 flex flex-col gap-2 text-zinc-700 dark:text-zinc-300">
-          <a className="flex items-center gap-3 font-semibold bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 rounded px-3 py-2 border border-green-300 dark:border-green-700" href="/api-playground">
+        <div className="text-2xl font-bold mb-10 tracking-tight text-gray-900">Dandi AI</div>
+        <nav className="flex-1 flex flex-col gap-2 text-gray-700">
+          <a className="flex items-center gap-3 font-semibold bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 rounded-xl px-4 py-3 border border-green-200 hover:from-green-200 hover:to-emerald-200 transition-all duration-200" href="/api-playground">
             <span className="inline-block align-middle">
               {/* Fancy API Playground Icon: Sparkly Rocket Code */}
               <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -62,11 +62,21 @@ export default function Sidebar({ open, onClose }) {
             </span>
             API Playground
           </a>
-          <a className="flex items-center gap-3 px-3 py-2 rounded opacity-50 cursor-not-allowed bg-zinc-100 dark:bg-zinc-800" href="#" tabIndex="-1" aria-disabled="true" title="Coming soon!"> <span>🏠</span> Overview</a>
-          <a className="flex items-center gap-3 px-3 py-2 rounded opacity-50 cursor-not-allowed bg-zinc-100 dark:bg-zinc-800" href="#" tabIndex="-1" aria-disabled="true" title="Coming soon!"> <span>✨</span> Research Assistant</a>
-          <a className="flex items-center gap-3 px-3 py-2 rounded opacity-50 cursor-not-allowed bg-zinc-100 dark:bg-zinc-800" href="#" tabIndex="-1" aria-disabled="true" title="Coming soon!"> <span>📄</span> Research Reports</a>
-          <a className="flex items-center gap-3 px-3 py-2 rounded opacity-50 cursor-not-allowed bg-zinc-100 dark:bg-zinc-800" href="#" tabIndex="-1" aria-disabled="true" title="Coming soon!"> <span>🧾</span> Invoices</a>
-          <a className="flex items-center gap-3 px-3 py-2 rounded opacity-50 cursor-not-allowed bg-zinc-100 dark:bg-zinc-800" href="#" tabIndex="-1" aria-disabled="true" title="Coming soon!"> <span>📚</span> Documentation</a>
+          <a className="flex items-center gap-3 px-4 py-3 rounded-xl opacity-50 cursor-not-allowed bg-gray-100 text-gray-500" href="#" tabIndex="-1" aria-disabled="true" title="Coming soon!"> 
+            <span>🏠</span> Overview
+          </a>
+          <a className="flex items-center gap-3 px-4 py-3 rounded-xl opacity-50 cursor-not-allowed bg-gray-100 text-gray-500" href="#" tabIndex="-1" aria-disabled="true" title="Coming soon!"> 
+            <span>✨</span> Research Assistant
+          </a>
+          <a className="flex items-center gap-3 px-4 py-3 rounded-xl opacity-50 cursor-not-allowed bg-gray-100 text-gray-500" href="#" tabIndex="-1" aria-disabled="true" title="Coming soon!"> 
+            <span>📄</span> Research Reports
+          </a>
+          <a className="flex items-center gap-3 px-4 py-3 rounded-xl opacity-50 cursor-not-allowed bg-gray-100 text-gray-500" href="#" tabIndex="-1" aria-disabled="true" title="Coming soon!"> 
+            <span>🧾</span> Invoices
+          </a>
+          <a className="flex items-center gap-3 px-4 py-3 rounded-xl opacity-50 cursor-not-allowed bg-gray-100 text-gray-500" href="#" tabIndex="-1" aria-disabled="true" title="Coming soon!"> 
+            <span>📚</span> Documentation
+          </a>
         </nav>
       </aside>
     </>
