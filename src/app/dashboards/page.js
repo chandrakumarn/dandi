@@ -153,15 +153,16 @@ export default function DashboardsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   
   // Get user session data
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   
   // Debug: Log session data to console
   useEffect(() => {
+    console.log('Session status:', status);
     if (session) {
       console.log('Session data:', session);
       console.log('User data:', session.user);
     }
-  }, [session]);
+  }, [session, status]);
 
   // Fetch API keys from Supabase on mount
   useEffect(() => {
@@ -242,12 +243,24 @@ export default function DashboardsPage() {
 
   const editingKey = apiKeys.find(k => k.id === editId);
 
+  // Add safety check for session
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading session...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <ProtectedRoute>
       <div className="flex min-h-screen bg-zinc-50 dark:bg-zinc-950">
         <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         <div className="flex-1 flex flex-col min-h-screen md:ml-64">
-          <TopBar onMenuClick={() => setSidebarOpen(true)} sidebarOpen={sidebarOpen} user={session?.user} />
+                      <TopBar onMenuClick={() => setSidebarOpen(true)} sidebarOpen={sidebarOpen} user={session?.user || null} />
           <main className="flex-1 px-4 md:px-12 py-8 max-w-5xl mx-auto">
             <div className="mb-4 text-zinc-400 text-sm font-medium">Pages / Overview</div>
             <div className="text-3xl font-bold mb-8">Overview</div>
