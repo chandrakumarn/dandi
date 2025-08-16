@@ -20,6 +20,7 @@ export const metadata = {
   creator: "Dandi AI",
   publisher: "Dandi AI",
   robots: "index, follow",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
   openGraph: {
     title: "Dandi Github Analyzer - Unlock GitHub Insights",
     description: "Get powerful insights, summaries, and analytics for open source GitHub repositories.",
@@ -36,6 +37,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}
       >

@@ -34,12 +34,12 @@ export default function GoogleSignIn() {
       <button
         onClick={handleGoogleSignIn}
         disabled={isLoading}
-        className="flex items-center gap-3 px-6 py-3 bg-white text-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transform hover:-translate-y-0.5"
+        className="flex items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 bg-white text-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transform hover:-translate-y-0.5 min-h-[44px] text-sm sm:text-base"
       >
         {isLoading ? (
-          <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
         ) : (
-          <svg className="w-5 h-5" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24">
             <path
               fill="#4285F4"
               d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -58,11 +58,12 @@ export default function GoogleSignIn() {
             />
           </svg>
         )}
-        {isLoading ? "Signing in..." : "Sign in with Google"}
+        <span className="hidden sm:inline">{isLoading ? "Signing in..." : "Sign in with Google"}</span>
+        <span className="sm:hidden">{isLoading ? "Signing in..." : "Sign in"}</span>
       </button>
       
       {error && (
-        <p className="text-red-500 text-sm text-center max-w-xs bg-red-50 px-3 py-2 rounded-lg border border-red-200">
+        <p className="text-red-500 text-xs sm:text-sm text-center max-w-xs bg-red-50 px-3 py-2 rounded-lg border border-red-200">
           {error}
         </p>
       )}

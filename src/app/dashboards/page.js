@@ -18,60 +18,65 @@ const mockPlan = {
 
 function TopBar({ onMenuClick, sidebarOpen, user }) {
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+    <header className="bg-white shadow-sm border-b border-gray-200 px-4 sm:px-6 py-4">
       <div className="flex items-center justify-between">
-        {!sidebarOpen && (
-          <button 
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors" 
-            onClick={onMenuClick} 
-            aria-label="Open sidebar"
-          >
-            <HamburgerIcon />
-          </button>
-        )}
-        
-        <div className="flex items-center gap-4">
-          <span className="flex items-center gap-2 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            Operational
-          </span>
-          
-          {/* User Profile Section */}
-          {user && (
-            <div className="flex items-center gap-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl px-4 py-2 border border-blue-200">
-              <div className="text-right">
-                <p className="text-sm font-semibold text-gray-900">{user.name}</p>
-                <p className="text-xs text-gray-600">{user.email}</p>
-              </div>
-              {user.image ? (
-                <img 
-                  src={user.image} 
-                  alt={user.name}
-                  className="w-10 h-10 rounded-full border-2 border-blue-300 object-cover"
-                  onError={(e) => {
-                    console.log('Image failed to load:', user.image);
-                    e.target.style.display = 'none';
-                    e.target.nextSibling.style.display = 'flex';
-                  }}
-                />
-              ) : null}
-              <div 
-                className={`w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center text-white text-sm font-semibold ${
-                  user.image ? 'hidden' : 'flex'
-                }`}
-              >
-                {user.name?.charAt(0)?.toUpperCase() || 'U'}
-              </div>
-              <button
-                onClick={() => signOut({ callbackUrl: '/' })}
-                className="text-xs text-red-600 hover:text-red-800 font-medium px-2 py-1 rounded hover:bg-red-50 transition-colors"
-                title="Sign out"
-              >
-                Sign out
-              </button>
-            </div>
+        <div className="flex items-center gap-3 sm:gap-4">
+          {!sidebarOpen && (
+            <button 
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors" 
+              onClick={onMenuClick} 
+              aria-label="Open sidebar"
+            >
+              <HamburgerIcon />
+            </button>
           )}
+          
+          <span className="flex items-center gap-2 bg-green-100 text-green-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            <span className="hidden sm:inline">Operational</span>
+            <span className="sm:hidden">OK</span>
+          </span>
         </div>
+        
+        {/* User Profile Section */}
+        {user && (
+          <div className="flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl px-3 sm:px-4 py-2 border border-blue-200">
+            <div className="text-right hidden sm:block">
+              <p className="text-sm font-semibold text-gray-900">{user.name}</p>
+              <p className="text-xs text-gray-600">{user.email}</p>
+            </div>
+            <div className="text-right sm:hidden">
+              <p className="text-xs font-semibold text-gray-900 truncate max-w-[100px]">{user.name}</p>
+            </div>
+            {user.image ? (
+              <img 
+                src={user.image} 
+                alt={user.name}
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-blue-300 object-cover"
+                onError={(e) => {
+                  console.log('Image failed to load:', user.image);
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'flex';
+                }}
+              />
+            ) : null}
+            <div 
+              className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xs sm:text-sm font-semibold ${
+                user.image ? 'hidden' : 'flex'
+              }`}
+            >
+              {user.name?.charAt(0)?.toUpperCase() || 'U'}
+            </div>
+            <button
+              onClick={() => signOut({ callbackUrl: '/' })}
+              className="text-xs text-red-600 hover:text-red-800 font-medium px-2 py-1 rounded hover:bg-red-50 transition-colors"
+              title="Sign out"
+            >
+              <span className="hidden sm:inline">Sign out</span>
+              <span className="sm:hidden">Out</span>
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );
@@ -79,18 +84,18 @@ function TopBar({ onMenuClick, sidebarOpen, user }) {
 
 function PlanCard() {
   return (
-    <div className="rounded-2xl shadow-lg p-8 mb-8 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 relative overflow-hidden text-white">
+    <div className="rounded-2xl shadow-lg p-6 sm:p-8 mb-6 sm:mb-8 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 relative overflow-hidden text-white">
       <div className="absolute inset-0 bg-black/10"></div>
       <div className="relative z-10">
-        <div className="flex justify-between items-center mb-6">
-          <span className="bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4 sm:mb-6">
+          <span className="bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm w-fit">
             CURRENT PLAN
           </span>
-          <button className="bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full hover:bg-white/30 transition backdrop-blur-sm">
+          <button className="bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full hover:bg-white/30 transition backdrop-blur-sm w-fit">
             Manage Plan
           </button>
         </div>
-        <div className="text-4xl font-bold mb-4">{mockPlan.name}</div>
+        <div className="text-2xl sm:text-4xl font-bold mb-4">{mockPlan.name}</div>
         <div className="flex items-center gap-3 mb-4">
           <span className="text-sm font-medium text-blue-100">API Limit</span>
           <div className="w-4 h-4 bg-white/30 rounded-full"></div>
@@ -111,80 +116,135 @@ function PlanCard() {
 
 function ApiKeyTable({ apiKeys, onEdit, onDelete, onCopy, visibleKeys, onToggleVisible, onCreateClick }) {
   return (
-    <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
-      <div className="flex items-center justify-between mb-6">
-        <div className="text-2xl font-bold text-gray-900">API Keys</div>
+    <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 sm:p-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div className="text-xl sm:text-2xl font-bold text-gray-900">API Keys</div>
         <button
-          className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl px-6 py-3 font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+          className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl px-4 sm:px-6 py-3 font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 w-full sm:w-auto"
           title="Add API Key"
           onClick={onCreateClick}
         >
           <PlusIcon />
-          Create New API Key
+          <span className="text-sm sm:text-base">Create New API Key</span>
         </button>
       </div>
       <div className="text-gray-600 text-sm mb-6 leading-relaxed">
         The key is used to authenticate your requests to the <a href="#" className="text-blue-600 hover:text-blue-700 underline font-medium">Research API</a>. 
         To learn more, see the <a href="#" className="text-blue-600 hover:text-blue-700 underline font-medium">documentation</a> page.
       </div>
-      <table className="w-full text-left">
-        <thead>
-          <tr className="border-b border-gray-200">
-            <th className="py-4 text-gray-700 font-semibold">Name</th>
-            <th className="py-4 text-gray-700 font-semibold">Usage</th>
-            <th className="py-4 text-gray-700 font-semibold">Key</th>
-            <th className="py-4 text-right text-gray-700 font-semibold">Options</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-100">
-          {apiKeys.map(k => {
-            const isVisible = visibleKeys[k.id];
-            return (
-              <tr key={k.id} className="hover:bg-gray-50 transition-colors">
-                <td className="py-4 font-medium text-gray-900">{k.label}</td>
-                <td className="py-4 text-gray-600">{k.usage}</td>
-                <td className="py-4 font-mono text-sm select-all">
-                  <span className="bg-gray-100 px-2 py-1 rounded text-gray-800">
-                    {isVisible ? k.key : "\u2022".repeat(k.key.length)}
-                  </span>
-                </td>
-                <td className="py-4 text-right">
-                  <div className="flex gap-2 justify-end">
-                    <button 
-                      className="p-2 rounded-lg hover:bg-blue-100 text-blue-600 transition-colors" 
-                      title={isVisible ? "Hide" : "Show"} 
-                      onClick={() => onToggleVisible(k.id)}
-                    >
-                      <EyeIcon />
-                    </button>
-                    <button 
-                      className="p-2 rounded-lg hover:bg-green-100 text-green-600 transition-colors" 
-                      title="Copy" 
-                      onClick={() => onCopy(k.key)}
-                    >
-                      <CopyIcon />
-                    </button>
-                    <button 
-                      className="p-2 rounded-lg hover:bg-yellow-100 text-yellow-600 transition-colors" 
-                      title="Edit" 
-                      onClick={() => onEdit(k.id)}
-                    >
-                      <EditIcon />
-                    </button>
-                    <button 
-                      className="p-2 rounded-lg hover:bg-red-100 text-red-600 transition-colors" 
-                      title="Delete" 
-                      onClick={() => onDelete(k.id)}
-                    >
-                      <TrashIcon />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      
+      {/* Desktop Table */}
+      <div className="hidden md:block">
+        <table className="w-full text-left">
+          <thead>
+            <tr className="border-b border-gray-200">
+              <th className="py-4 text-gray-700 font-semibold">Name</th>
+              <th className="py-4 text-gray-700 font-semibold">Usage</th>
+              <th className="py-4 text-gray-700 font-semibold">Key</th>
+              <th className="py-4 text-right text-gray-700 font-semibold">Options</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {apiKeys.map(k => {
+              const isVisible = visibleKeys[k.id];
+              return (
+                <tr key={k.id} className="hover:bg-gray-50 transition-colors">
+                  <td className="py-4 font-medium text-gray-900">{k.label}</td>
+                  <td className="py-4 text-gray-600">{k.usage}</td>
+                  <td className="py-4 font-mono text-sm select-all">
+                    <span className="bg-gray-100 px-2 py-1 rounded text-black">
+                      {isVisible ? k.key : "\u2022".repeat(k.key.length)}
+                    </span>
+                  </td>
+                  <td className="py-4 text-right">
+                    <div className="flex gap-2 justify-end">
+                      <button 
+                        className="p-2 rounded-lg hover:bg-blue-100 text-blue-600 transition-colors" 
+                        title={isVisible ? "Hide" : "Show"} 
+                        onClick={() => onToggleVisible(k.id)}
+                      >
+                        <EyeIcon />
+                      </button>
+                      <button 
+                        className="p-2 rounded-lg hover:bg-green-100 text-green-600 transition-colors" 
+                        title="Copy" 
+                        onClick={() => onCopy(k.key)}
+                      >
+                        <CopyIcon />
+                      </button>
+                      <button 
+                        className="p-2 rounded-lg hover:bg-yellow-100 text-yellow-600 transition-colors" 
+                        title="Edit" 
+                        onClick={() => onEdit(k.id)}
+                      >
+                        <EditIcon />
+                      </button>
+                      <button 
+                        className="p-2 rounded-lg hover:bg-red-100 text-red-600 transition-colors" 
+                        title="Delete" 
+                        onClick={() => onDelete(k.id)}
+                      >
+                        <TrashIcon />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Mobile Cards */}
+      <div className="md:hidden space-y-4">
+        {apiKeys.map(k => {
+          const isVisible = visibleKeys[k.id];
+          return (
+            <div key={k.id} className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-semibold text-gray-900 text-sm">{k.label}</h3>
+                <span className="text-xs text-gray-600 bg-gray-200 px-2 py-1 rounded-full">Usage: {k.usage}</span>
+              </div>
+              <div className="mb-3">
+                <label className="text-xs text-gray-600 mb-1 block">API Key:</label>
+                <div className="font-mono text-xs bg-white px-3 py-2 rounded border select-all break-all text-black">
+                  {isVisible ? k.key : "\u2022".repeat(k.key.length)}
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <button 
+                  className="flex-1 flex items-center justify-center gap-1 p-2 rounded-lg bg-blue-100 text-blue-600 text-xs font-medium transition-colors" 
+                  onClick={() => onToggleVisible(k.id)}
+                >
+                  <EyeIcon />
+                  {isVisible ? "Hide" : "Show"}
+                </button>
+                <button 
+                  className="flex-1 flex items-center justify-center gap-1 p-2 rounded-lg bg-green-100 text-green-600 text-xs font-medium transition-colors" 
+                  onClick={() => onCopy(k.key)}
+                >
+                  <CopyIcon />
+                  Copy
+                </button>
+                <button 
+                  className="flex-1 flex items-center justify-center gap-1 p-2 rounded-lg bg-yellow-100 text-yellow-600 text-xs font-medium transition-colors" 
+                  onClick={() => onEdit(k.id)}
+                >
+                  <EditIcon />
+                  Edit
+                </button>
+                <button 
+                  className="flex-1 flex items-center justify-center gap-1 p-2 rounded-lg bg-red-100 text-red-600 text-xs font-medium transition-colors" 
+                  onClick={() => onDelete(k.id)}
+                >
+                  <TrashIcon />
+                  Delete
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -198,7 +258,7 @@ export default function DashboardsPage() {
   const [error, setError] = useState("");
   const [toast, setToast] = useState("");
   const [toastColor, setToastColor] = useState("bg-green-600");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   // Get user session data
   const { data: session, status } = useSession();
@@ -307,12 +367,12 @@ export default function DashboardsPage() {
     <ProtectedRoute>
       <div className="flex min-h-screen bg-gray-50">
         <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-        <div className="flex-1 flex flex-col min-h-screen md:ml-64">
+        <div className="flex-1 flex flex-col min-h-screen md:ml-0">
           <TopBar onMenuClick={() => setSidebarOpen(true)} sidebarOpen={sidebarOpen} user={session?.user || null} />
-          <main className="flex-1 px-6 md:px-12 py-8 max-w-6xl mx-auto">
+          <main className="flex-1 px-4 sm:px-6 md:px-12 py-6 sm:py-8 max-w-6xl mx-auto">
             <div className="mb-6">
               <div className="text-gray-500 text-sm font-medium mb-2">Pages / Overview</div>
-              <div className="text-3xl font-bold text-gray-900">Dashboard Overview</div>
+              <div className="text-2xl sm:text-3xl font-bold text-gray-900">Dashboard Overview</div>
             </div>
             
             <PlanCard />
