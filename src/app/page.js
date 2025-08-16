@@ -1,7 +1,26 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import GoogleSignIn from "../components/GoogleSignIn";
+import GoogleSignOut from "../components/GoogleSignOut";
 
 export default function Home() {
+  const { data: session, status } = useSession();
+
+  // Show loading state while checking authentication
+  if (status === "loading") {
+    return (
+      <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
+        <main className="flex flex-col gap-[32px] row-start-2 items-center">
+          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-gray-600">Checking authentication...</p>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
@@ -13,6 +32,57 @@ export default function Home() {
           height={38}
           priority
         />
+
+        {session ? (
+          // User is signed in - show welcome message and dashboard access
+          <div className="text-center sm:text-left">
+            <h1 className="text-2xl font-bold mb-4 text-green-600">
+              Welcome back, {session.user?.name}! 🎉
+            </h1>
+            <p className="text-gray-600 mb-6">
+              You're successfully signed in with Google. Ready to access your dashboard?
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center sm:justify-start">
+              <Link 
+                href="/dashboards" 
+                className="inline-block rounded bg-blue-600 text-white px-6 py-3 font-semibold shadow hover:bg-blue-700 transition-colors"
+              >
+                Go to Dashboard
+              </Link>
+              <GoogleSignOut />
+            </div>
+            
+            <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+              <h3 className="font-semibold mb-2">Your Session Info:</h3>
+              <p className="text-sm text-gray-600">Email: {session.user?.email}</p>
+              <p className="text-sm text-gray-600">Provider: {session.provider}</p>
+            </div>
+          </div>
+        ) : (
+          // User is not signed in - show sign-in options
+          <div className="text-center sm:text-left">
+            <h1 className="text-2xl font-bold mb-4">
+              Welcome to Dandi Fresh! 🚀
+            </h1>
+            <p className="text-gray-600 mb-6">
+              Sign in with your Google account to access your personalized dashboard and manage your API keys.
+            </p>
+            
+            <GoogleSignIn />
+            
+            <div className="mt-8 p-4 bg-blue-50 rounded-lg">
+              <h3 className="font-semibold mb-2 text-blue-800">Why Google Sign-In?</h3>
+              <ul className="text-sm text-blue-700 space-y-1">
+                <li>• Secure and trusted authentication</li>
+                <li>• No need to remember another password</li>
+                <li>• Quick and seamless access</li>
+                <li>• Your data stays private and secure</li>
+              </ul>
+            </div>
+          </div>
+        )}
+
         <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
           <li className="mb-2 tracking-[-.01em]">
             Get started by editing{" "}
@@ -51,9 +121,6 @@ export default function Home() {
             Read our docs
           </a>
         </div>
-        <Link href="/dashboards" className="mt-8 inline-block rounded bg-blue-600 text-white px-6 py-2 font-semibold shadow hover:bg-blue-700 transition-colors">
-          Go to API Key Dashboard
-        </Link>
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
         <a

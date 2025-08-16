@@ -1,9 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useSession, signOut } from "next-auth/react";
 import Sidebar from "../../components/Sidebar";
 import Toast from "../../components/Toast";
 import CreateApiKeyModal from "../../components/modals/CreateApiKeyModal";
 import EditApiKeyModal from "../../components/modals/EditApiKeyModal";
+import ProtectedRoute from "../../components/ProtectedRoute";
 import { EyeIcon, CopyIcon, EditIcon, TrashIcon, PlusIcon, HamburgerIcon } from "../../components/icons";
 import { fetchApiKeys, createApiKey, updateApiKey, deleteApiKey } from "../../lib/apiKeys";
 
@@ -14,7 +16,7 @@ const mockPlan = {
   limit: 1000,
 };
 
-function TopBar({ onMenuClick, sidebarOpen }) {
+function TopBar({ onMenuClick, sidebarOpen, user }) {
   return (
     <header className="flex items-center justify-between gap-3 px-8 py-4 bg-transparent">
       {!sidebarOpen && (
@@ -22,8 +24,45 @@ function TopBar({ onMenuClick, sidebarOpen }) {
           <HamburgerIcon />
         </button>
       )}
-      <div className="flex-1 flex justify-end gap-3">
+      <div className="flex-1 flex justify-end gap-3 items-center">
         <span className="flex items-center gap-2 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">● Operational</span>
+        
+        {/* User Profile Section */}
+        {user && (
+          <div className="flex items-center gap-3 bg-white dark:bg-zinc-800 rounded-lg px-4 py-2 shadow-sm border border-zinc-200 dark:border-zinc-700">
+            <div className="text-right">
+              <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{user.name}</p>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400">{user.email}</p>
+            </div>
+            {user.image ? (
+              <img 
+                src={user.image} 
+                alt={user.name}
+                className="w-8 h-8 rounded-full border-2 border-zinc-200 dark:border-zinc-600 object-cover"
+                onError={(e) => {
+                  console.log('Image failed to load:', user.image);
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'flex';
+                }}
+              />
+            ) : null}
+            <div 
+              className={`w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium ${
+                user.image ? 'hidden' : 'flex'
+              }`}
+            >
+              {user.name?.charAt(0)?.toUpperCase() || 'U'}
+            </div>
+            <button
+              onClick={() => signOut({ callbackUrl: '/' })}
+              className="ml-2 text-xs text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 font-medium"
+              title="Sign out"
+            >
+              Sign out
+            </button>
+          </div>
+        )}
+        
         <button className="hover:bg-zinc-100 dark:hover:bg-zinc-800 p-2 rounded-full"><svg width="18" height="18" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5"/></svg></button>
         <button className="hover:bg-zinc-100 dark:hover:bg-zinc-800 p-2 rounded-full"><svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M21 6.5a2.5 2.5 0 0 0-5 0v.5h-8v-.5a2.5 2.5 0 0 0-5 0v11a2.5 2.5 0 0 0 5 0v-.5h8v.5a2.5 2.5 0 0 0 5 0v-11Z" stroke="currentColor" strokeWidth="1.5"/></svg></button>
         <button className="hover:bg-zinc-100 dark:hover:bg-zinc-800 p-2 rounded-full"><svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M12 3v18m9-9H3" stroke="currentColor" strokeWidth="1.5"/></svg></button>
@@ -112,6 +151,17 @@ export default function DashboardsPage() {
   const [toast, setToast] = useState("");
   const [toastColor, setToastColor] = useState("bg-green-600");
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  
+  // Get user session data
+  const { data: session } = useSession();
+  
+  // Debug: Log session data to console
+  useEffect(() => {
+    if (session) {
+      console.log('Session data:', session);
+      console.log('User data:', session.user);
+    }
+  }, [session]);
 
   // Fetch API keys from Supabase on mount
   useEffect(() => {
@@ -193,43 +243,45 @@ export default function DashboardsPage() {
   const editingKey = apiKeys.find(k => k.id === editId);
 
   return (
-    <div className="flex min-h-screen bg-zinc-50 dark:bg-zinc-950">
-      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <div className="flex-1 flex flex-col min-h-screen md:ml-64">
-        <TopBar onMenuClick={() => setSidebarOpen(true)} sidebarOpen={sidebarOpen} />
-        <main className="flex-1 px-4 md:px-12 py-8 max-w-5xl mx-auto">
-          <div className="mb-4 text-zinc-400 text-sm font-medium">Pages / Overview</div>
-          <div className="text-3xl font-bold mb-8">Overview</div>
-          <PlanCard />
-          {error && <div className="mb-4 text-red-600">{error}</div>}
-          {loading && <div className="mb-4 text-blue-600">Loading...</div>}
-          <ApiKeyTable
-            apiKeys={apiKeys}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            onCopy={handleCopy}
-            visibleKeys={visibleKeys}
-            onToggleVisible={handleToggleVisible}
-            onCreateClick={() => setShowCreate(true)}
-          />
-          {showCreate && (
-            <CreateApiKeyModal
-              onCreate={handleCreate}
-              onCancel={() => setShowCreate(false)}
-              loading={loading}
+    <ProtectedRoute>
+      <div className="flex min-h-screen bg-zinc-50 dark:bg-zinc-950">
+        <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        <div className="flex-1 flex flex-col min-h-screen md:ml-64">
+          <TopBar onMenuClick={() => setSidebarOpen(true)} sidebarOpen={sidebarOpen} user={session?.user} />
+          <main className="flex-1 px-4 md:px-12 py-8 max-w-5xl mx-auto">
+            <div className="mb-4 text-zinc-400 text-sm font-medium">Pages / Overview</div>
+            <div className="text-3xl font-bold mb-8">Overview</div>
+            <PlanCard />
+            {error && <div className="mb-4 text-red-600">{error}</div>}
+            {loading && <div className="mb-4 text-blue-600">Loading...</div>}
+            <ApiKeyTable
+              apiKeys={apiKeys}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              onCopy={handleCopy}
+              visibleKeys={visibleKeys}
+              onToggleVisible={handleToggleVisible}
+              onCreateClick={() => setShowCreate(true)}
             />
-          )}
-          {editId && editingKey && (
-            <EditApiKeyModal
-              initialLabel={editingKey.label}
-              onEdit={handleEditSave}
-              onCancel={handleEditCancel}
-              loading={loading}
-            />
-          )}
-          <Toast message={toast} color={toastColor} visible={!!toast} />
-        </main>
+            {showCreate && (
+              <CreateApiKeyModal
+                onCreate={handleCreate}
+                onCancel={() => setShowCreate(false)}
+                loading={loading}
+              />
+            )}
+            {editId && editingKey && (
+              <EditApiKeyModal
+                initialLabel={editingKey.label}
+                onEdit={handleEditSave}
+                onCancel={handleEditCancel}
+                loading={loading}
+              />
+            )}
+            <Toast message={toast} color={toastColor} visible={!!toast} />
+          </main>
+        </div>
       </div>
-    </div>
+    </ProtectedRoute>
   );
 } 

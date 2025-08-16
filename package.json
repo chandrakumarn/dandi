@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/core": "^0.40.0",
+    "@auth/nextjs": "^0.0.0-380f8d56",
     "@langchain/core": "^0.3.0",
     "@langchain/openai": "^0.1.0",
     "@supabase/supabase-js": "^2.52.1",
     "next": "15.4.2",
+    "next-auth": "^4.24.11",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "sharp": "^0.33.0",
