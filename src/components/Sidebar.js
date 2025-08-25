@@ -62,6 +62,15 @@ export default function Sidebar({ open, onClose }) {
             </span>
             <span className="text-sm sm:text-base">API Playground</span>
           </a>
+          <a className="flex items-center gap-3 font-semibold bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 rounded-xl px-3 sm:px-4 py-3 sm:py-3 border border-green-200 hover:from-green-200 hover:to-emerald-200 transition-all duration-200 min-h-[44px]" href="/github-summarizer">
+            <span className="inline-block align-middle flex-shrink-0">
+              {/* GitHub mark icon */}
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="sm:w-[22px] sm:h-[22px]">
+                <path d="M12 .5C5.73.5.77 5.46.77 11.73c0 4.9 3.18 9.05 7.59 10.52.56.1.77-.24.77-.54v-1.87c-3.09.67-3.74-1.49-3.74-1.49-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.69.08-.69 1.12.08 1.71 1.15 1.71 1.15 1 .1.66 1.76 2.66 1.25.1-.75.4-1.26.73-1.55-2.46-.28-5.05-1.23-5.05-5.47 0-1.21.43-2.2 1.14-2.98-.11-.28-.49-1.42.1-2.95 0 0 .93-.3 3.05 1.14a10.5 10.5 0 0 1 5.56 0c2.12-1.44 3.05-1.14 3.05-1.14.59 1.53.21 2.67.1 2.95.71.78 1.14 1.77 1.14 2.98 0 4.25-2.59 5.18-5.06 5.47.41.35.77 1.04.77 2.1v3.11c0 .3.21.65.78.54 4.4-1.47 7.58-5.62 7.58-10.52C23.23 5.46 18.27.5 12 .5z"/>
+              </svg>
+            </span>
+            <span className="text-sm sm:text-base">Test GitHub Summarizer</span>
+          </a>
           <a className="flex items-center gap-3 px-3 sm:px-4 py-3 sm:py-3 rounded-xl opacity-50 cursor-not-allowed bg-gray-100 text-gray-500 min-h-[44px]" href="#" tabIndex="-1" aria-disabled="true" title="Coming soon!"> 
             <span className="text-sm sm:text-base">🏠</span>
             <span className="text-sm sm:text-base">Overview</span>
